@@ -1,4 +1,5 @@
 {
+  "name": "Evaluacion_Electiva_II",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
   }
 }
-

@@ -10,7 +10,7 @@
 <body>
   <h1>Product Sale</h1>
   
-  <form action="/api/sale" method="POST">
+  <form id="sale-form" action="/api/sale" method="POST">
     <label for="product">Select Product:</label>
     <select name="productId" id="product">
       <% Object.values(products).forEach(product => { %>
@@ -31,8 +31,18 @@
         <th scope="col">Quantity</th>
       </tr>
     </thead>
-    <tbody>
-      <!-- Aquí insertarás los productos agregados a la venta -->
+    <tbody id="sale-table-body">
+      <% if (sale.length > 0) { %>
+        <% sale.forEach((item, index) => { %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td><%= item.product.code %></td>
+            <td><%= item.product.description %></td>
+            <td>$<%= item.product.value %></td>
+            <td><%= item.quantity %></td>
+          </tr>
+        <% }); %>
+      <% } %>
     </tbody>
   </table>
 
@@ -43,5 +53,34 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.getElementById('sale-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const response = await fetch('/api/sale', {
+        method: 'POST',
+        body: formData
+      });
+      if (response.ok) {
+        const sale = await response.json();
+        addProductToTable(sale);
+      } else {
+        alert('Error adding product to sale');
+      }
+    });
+
+    function addProductToTable(saleItem) {
+      const tableBody = document.getElementById('sale-table-body');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <th scope="row">${tableBody.children.length + 1}</th>
+        <td>${saleItem.product.code}</td>
+        <td>${saleItem.product.description}</td>
+        <td>$${saleItem.product.value}</td>
+        <td>${saleItem.quantity}</td>
+      `;
+      tableBody.appendChild(row);
+    }
+  </script>
 </body>
 </html>
