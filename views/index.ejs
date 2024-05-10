@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Sale</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -12,29 +13,35 @@
   <form action="/api/sale" method="POST">
     <label for="product">Select Product:</label>
     <select name="productId" id="product">
-      <% products.forEach(product => { %>
-        <option value="<%= product.id %>"><%= product.name %></option>
+      <% Object.values(products).forEach(product => { %>
+        <option value="<%= product.code %>"><%= product.description %></option>
       <% }); %>
     </select>
     <input type="number" name="quantity" placeholder="Quantity">
     <button type="submit">Add to Sale</button>
   </form>
 
-  <table>
+  <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
+        <th scope="col">#</th>
+        <th scope="col">Code</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
       </tr>
     </thead>
     <tbody>
-      
+      <!-- Aquí insertarás los productos agregados a la venta -->
     </tbody>
   </table>
 
   <footer>
     Total: $<span id="total">0</span>
   </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
